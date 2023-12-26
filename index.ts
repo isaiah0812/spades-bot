@@ -1,19 +1,22 @@
+import shuffle from "./card";
+
 enum Suits {
   HEARTS, CLOVES, DIAMONDS, SPADES
 }
 
 enum Order {
-  ONE, TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE
+  TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE
 }
 
 enum Jokers {
   LOW, HIGH
 }
 
-const CARDS = [
+export type Card = [Suits, Order] | Jokers;
+
+const CARDS: Set<Card> = new Set<Card>([
   Jokers.HIGH,
   Jokers.LOW,
-  [Suits.HEARTS, Order.ONE],
   [Suits.HEARTS, Order.TWO],
   [Suits.HEARTS, Order.THREE],
   [Suits.HEARTS, Order.FOUR],
@@ -27,7 +30,6 @@ const CARDS = [
   [Suits.HEARTS, Order.QUEEN],
   [Suits.HEARTS, Order.KING],
   [Suits.HEARTS, Order.ACE],
-  [Suits.CLOVES, Order.ONE],
   [Suits.CLOVES, Order.TWO],
   [Suits.CLOVES, Order.THREE],
   [Suits.CLOVES, Order.FOUR],
@@ -41,7 +43,6 @@ const CARDS = [
   [Suits.CLOVES, Order.QUEEN],
   [Suits.CLOVES, Order.KING],
   [Suits.CLOVES, Order.ACE],
-  [Suits.DIAMONDS, Order.ONE],
   [Suits.DIAMONDS, Order.TWO],
   [Suits.DIAMONDS, Order.THREE],
   [Suits.DIAMONDS, Order.FOUR],
@@ -55,7 +56,6 @@ const CARDS = [
   [Suits.DIAMONDS, Order.QUEEN],
   [Suits.DIAMONDS, Order.KING],
   [Suits.DIAMONDS, Order.ACE],
-  [Suits.SPADES, Order.ONE],
   [Suits.SPADES, Order.TWO],
   [Suits.SPADES, Order.THREE],
   [Suits.SPADES, Order.FOUR],
@@ -69,8 +69,8 @@ const CARDS = [
   [Suits.SPADES, Order.QUEEN],
   [Suits.SPADES, Order.KING],
   [Suits.SPADES, Order.ACE],
-];
+]);
 
-console.log('Suits:', Object.entries(Suits).filter(([key, _]) => isNaN(Number(key))))
-console.log('Order:', Object.entries(Order).filter(([key, _]) => isNaN(Number(key))))
-console.log('Jokers:', Object.entries(Jokers).filter(([key, _]) => isNaN(Number(key))))
+const deck = shuffle(CARDS);
+
+console.log(deck);
