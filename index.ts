@@ -1,5 +1,6 @@
 import { Card, Jokers, Order, Suits, shuffle, throwOut } from "./card";
 import Player from "./player";
+import "./extensions";
 
 const CARDS: Card[] = [
   Jokers.HIGH,
@@ -61,10 +62,17 @@ const CARDS: Card[] = [
 const deck = shuffle(CARDS);
 throwOut(deck);
 
-const players: Player[] = [new Player(), new Player(), new Player(), new Player()];
+const players: Player[] = [new Player('Alice'), new Player('Bob'), new Player('Cathy'), new Player('Dave')];
 Array.from(deck.values()).forEach((card, index) => {
   players[index % players.length].addToDeck(card);
 });
+
+const teams = [
+  players.even(),
+  players.odd()
+]
+
+console.log(teams);
 
 for (const player of players) {
   console.log(player.deck.size)
