@@ -1,20 +1,7 @@
-import shuffle from "./card";
+import { Card, Jokers, Order, Suits, shuffle, throwOut } from "./card";
+import Player from "./player";
 
-enum Suits {
-  HEARTS, CLOVES, DIAMONDS, SPADES
-}
-
-enum Order {
-  TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE
-}
-
-enum Jokers {
-  LOW, HIGH
-}
-
-export type Card = [Suits, Order] | Jokers;
-
-const CARDS: Set<Card> = new Set<Card>([
+const CARDS: Card[] = [
   Jokers.HIGH,
   Jokers.LOW,
   [Suits.HEARTS, Order.TWO],
@@ -69,8 +56,16 @@ const CARDS: Set<Card> = new Set<Card>([
   [Suits.SPADES, Order.QUEEN],
   [Suits.SPADES, Order.KING],
   [Suits.SPADES, Order.ACE],
-]);
+];
 
 const deck = shuffle(CARDS);
+throwOut(deck);
 
-console.log(deck);
+const players: Player[] = [new Player(), new Player(), new Player(), new Player()];
+Array.from(deck.values()).forEach((card, index) => {
+  players[index % players.length].addToDeck(card);
+});
+
+for (const player of players) {
+  console.log(player.deck.size)
+}
