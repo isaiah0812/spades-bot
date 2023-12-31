@@ -1,9 +1,9 @@
 export enum Suits {
-  HEARTS, CLOVES, DIAMONDS, SPADES
+  HEARTS = 'Hearts', CLUBS = 'Clubs', DIAMONDS = 'Diamonds', SPADES = 'Spades'
 }
 
 export enum Order {
-  TWO, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE
+  TWO = 2, THREE, FOUR, FIVE, SIX, SEVEN, EIGHT, NINE, TEN, JACK, QUEEN, KING, ACE
 }
 
 export enum Jokers {
@@ -28,19 +28,19 @@ export const CARDS: Card[] = [
   [Suits.HEARTS, Order.QUEEN],
   [Suits.HEARTS, Order.KING],
   [Suits.HEARTS, Order.ACE],
-  [Suits.CLOVES, Order.TWO],
-  [Suits.CLOVES, Order.THREE],
-  [Suits.CLOVES, Order.FOUR],
-  [Suits.CLOVES, Order.FIVE],
-  [Suits.CLOVES, Order.SIX],
-  [Suits.CLOVES, Order.SEVEN],
-  [Suits.CLOVES, Order.EIGHT],
-  [Suits.CLOVES, Order.NINE],
-  [Suits.CLOVES, Order.TEN],
-  [Suits.CLOVES, Order.JACK],
-  [Suits.CLOVES, Order.QUEEN],
-  [Suits.CLOVES, Order.KING],
-  [Suits.CLOVES, Order.ACE],
+  [Suits.CLUBS, Order.TWO],
+  [Suits.CLUBS, Order.THREE],
+  [Suits.CLUBS, Order.FOUR],
+  [Suits.CLUBS, Order.FIVE],
+  [Suits.CLUBS, Order.SIX],
+  [Suits.CLUBS, Order.SEVEN],
+  [Suits.CLUBS, Order.EIGHT],
+  [Suits.CLUBS, Order.NINE],
+  [Suits.CLUBS, Order.TEN],
+  [Suits.CLUBS, Order.JACK],
+  [Suits.CLUBS, Order.QUEEN],
+  [Suits.CLUBS, Order.KING],
+  [Suits.CLUBS, Order.ACE],
   [Suits.DIAMONDS, Order.TWO],
   [Suits.DIAMONDS, Order.THREE],
   [Suits.DIAMONDS, Order.FOUR],
@@ -88,7 +88,7 @@ export function throwOut(cards: Card[], category: 'twos' | 'jokers' = 'twos'): v
   if (category === 'twos') {
     cards.splice(
       cards.findIndex(card =>
-        Array.isArray(card) && card[0] === Suits.CLOVES && card[1] === Order.TWO
+        Array.isArray(card) && card[0] === Suits.CLUBS && card[1] === Order.TWO
       ),
     1);
 
@@ -111,3 +111,42 @@ export function throwOut(cards: Card[], category: 'twos' | 'jokers' = 'twos'): v
     1);
   }
 }
+
+export function toEmoji(suit: Suits): string {
+  let emoji;
+  
+  switch (suit) {
+    case Suits.HEARTS: emoji = '♥';
+      break;
+    case Suits.CLUBS: emoji = '♣';
+      break;
+    case Suits.DIAMONDS: emoji = '♦';
+      break;
+    case Suits.SPADES: emoji = '♠';
+      break;
+  }
+
+  return emoji;
+}
+
+export function toFace(order: Order): string | number {
+  let face;
+
+  switch (order) {
+    case Order.JACK: face = 'Jack';
+      break;
+    case Order.QUEEN: face = 'Queen';
+      break;
+    case Order.KING: face = 'King';
+      break;
+    case Order.ACE: face = 'Ace';
+      break;
+    default: face = order;
+      break;
+  }
+
+  return face;
+}
+
+export const TOTAL_TURN_COMBOS = 20825;
+export const TOTAL_BEATEN_COMBOS = (50 * 49) / 6;

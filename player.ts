@@ -1,4 +1,4 @@
-import { CARDS, Card, Jokers, Order, Suits } from "./card";
+import { CARDS, Card, Jokers, Order, Suits, TOTAL_BEATEN_COMBOS, TOTAL_TURN_COMBOS } from "./card";
 import { factorial } from "./utils";
 
 export default class Player {
@@ -45,9 +45,11 @@ export default class Player {
     this.bet = Math.floor(bet);
   }
 
+  // TODO account for if jokers are thrown out
   private betterCardCount(card: Card) {
     let result = 0;
-
+    
+    // TODO weight hand removals based on how many cards are in between
     if (Array.isArray(card)) {
       const [suit, order] = card;
       // Adding Jokers
@@ -74,7 +76,7 @@ export default class Player {
   }
 
   private wonBookProbability(betterCards: number): number {
-    return 1 - (betterCards * ((factorial(50) / (2 * factorial(48))) / (factorial(51) / (6 * factorial(48)))));
+    return (1 - (betterCards * (TOTAL_BEATEN_COMBOS / TOTAL_TURN_COMBOS))) * ((51 - betterCards) / 51);
   }
 
   get name(): string {

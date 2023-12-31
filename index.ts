@@ -1,4 +1,4 @@
-import { CARDS, shuffle, throwOut } from "./card";
+import { CARDS, Jokers, shuffle, throwOut, toEmoji, toFace } from "./card";
 import Player from "./player";
 import "./extensions";
 
@@ -16,8 +16,10 @@ const teams = [
 ];
 
 for (const player of players) {
-  player.makeBet()
-  console.log(`${player.name}:`, player.bet);
+  player.makeBet();
+  console.log(
+    `${player.name} Tests:\n\tHand: [ ${player.hand.map((card) => Array.isArray(card) ? `${toFace(card[1])} of ${toEmoji(card[0])}` : (card === Jokers.HIGH ? 'High' : 'Low') + '🃏').join(', ')} ]\n\n\tBet: ${player.bet}`
+  );
 }
 
 // TODO play game
