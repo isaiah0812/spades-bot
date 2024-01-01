@@ -42,31 +42,36 @@ export default class Player {
       bet += this.wonBookProbability(this.betterCardCount(card));
     }
 
-    this.bet = Math.floor(bet);
+    this.bet = Math.round(bet);
   }
 
   // TODO account for if jokers are thrown out
   private betterCardCount(card: Card) {
     let result = 0;
     
-    // TODO weight hand removals based on how many cards are in between
     if (Array.isArray(card)) {
       const [suit, order] = card;
-      // Adding Jokers
-      if (!this.hand.includes(Jokers.HIGH)) {
-        result++;
-      }
 
-      if (!this.hand.includes(Jokers.LOW)) {
+      // Adding Jokers
+      if (!this.hand.includes(Jokers.HIGH) && !this.hand.includes(Jokers.LOW)) {
+        result += 2;
+      } else if (!this.hand.includes(Jokers.HIGH) && this.hand.includes(Jokers.LOW)) {
+        result += 1.5;
+      } else if (!this.hand.includes(Jokers.LOW) && this.hand.includes(Jokers.HIGH)) {
         result++;
       }
 
       // Rest of Suit
-      result += Order.ACE - order - this.hand.filter(comp => comp[0] === suit && comp[1] > order).length;
+      result += Order.ACE - order;
+      const higherInSuit = this.hand.filter(comp => comp[0] === suit && comp[1] > order);
+
+      for (const comp of higherInSuit) {
+        result -= 1 / (comp[1] - order - higherInSuit.filter(otherComp => otherComp[0] === suit && otherComp[1] < comp[1]).length);
+      }
 
       // All Spades, if not a spade
       if (suit !== Suits.SPADES) {
-        result += 13 - this.hand.filter(comp => comp[0] === Suits.SPADES).length;
+        result += 13 - (this.hand.filter(comp => comp[0] === Suits.SPADES).length / 13);
       }
     } else if (card === Jokers.LOW && !this.hand.includes(Jokers.HIGH)) {
       result++;
